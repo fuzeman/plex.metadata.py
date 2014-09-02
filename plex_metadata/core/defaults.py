@@ -1,6 +1,6 @@
 DEFAULT_TYPES = ['movie', 'show', 'episode']
 
-DEFAULT_AGENT_MAP = {
+DEFAULT_GUID_MAP = {
     # Multi
     'mcm':              ('thetvdb', r'MCM_TV_A_(.*)'),
 
@@ -16,3 +16,11 @@ DEFAULT_AGENT_MAP = {
         'thetvdb'
     ],
 }
+
+DEFAULT_TV_AGENTS = [
+    'com.plexapp.agents.thetvdb',
+    'com.plexapp.agents.thetvdbdvdorder',
+    'com.plexapp.agents.abstvdb',
+    'com.plexapp.agents.xbmcnfotv',
+    'com.plexapp.agents.mcm'
+]
