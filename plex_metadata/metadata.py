@@ -1,6 +1,11 @@
 from plex import Plex
+from plex.ext.activity import Activity
 from plex_metadata.core.cache import Cache
 from plex_metadata.core.defaults import DEFAULT_TYPES
+
+import logging
+
+log = logging.getLogger(__name__)
 
 
 # TODO automatic invalidated object removal (+ manual trigger)
@@ -14,10 +19,10 @@ class Metadata(object):
         self.cache = Cache('plex.metadata')
         self.cache.on_refresh.subscribe(self.on_refresh)
 
-        # TODO bind to activity events
-        # EventManager.subscribe('notifications.timeline.created', cls.timeline_created)
-        # EventManager.subscribe('notifications.timeline.deleted', cls.timeline_deleted)
-        # EventManager.subscribe('notifications.timeline.finished', cls.timeline_finished)
+        # Bind activity events
+        Activity.on('websocket.timeline.created', self.timeline_created)
+        Activity.on('websocket.timeline.deleted', self.timeline_deleted)
+        Activity.on('websocket.timeline.finished', self.timeline_finished)
 
     def get(self, key):
         return self.cache.get(key, refresh=True)
@@ -49,18 +54,11 @@ class Metadata(object):
     # Timeline event handlers
     #
 
-    @classmethod
-    def timeline_created(cls, item):
-        log.debug('timeline_created(%s)', item)
+    def timeline_created(self, item):
+        pass
 
-    @classmethod
-    def timeline_deleted(cls, item):
-        log.debug('timeline_deleted(%s)', item)
+    def timeline_deleted(self, item):
+        self.cache.remove(str(item['itemID']))
 
-        cls.cache.remove(str(item['itemID']))
-
-    @classmethod
-    def timeline_finished(cls, item):
-        log.debug('timeline_finished(%s)', item)
-
-        cls.cache.invalidate(str(item['itemID']), refresh=True, create=True)
+    def timeline_finished(self, item):
+        self.cache.invalidate(str(item['itemID']), refresh=True, create=True)
