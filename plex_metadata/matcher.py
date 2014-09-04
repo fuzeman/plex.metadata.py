@@ -17,7 +17,7 @@ class Matcher(object):
             from caper import Caper
             return Caper()
         except ImportError, ex:
-            log.info('Caper not available - %s', ex)
+            log.info('Caper not available - "%s"', ex)
             return None
 
     def lookup(self, file_hash):
@@ -36,7 +36,7 @@ class Matcher(object):
             identifier = self.lookup(file_hash)
 
         # Parse new file_name
-        if identifier is None:
+        if identifier is None and self.caper:
             # Parse file_name with Caper
             result = self.caper.parse(file_name)
 
@@ -97,7 +97,7 @@ class Matcher(object):
         c_identifiers = self.parse(file_name)
 
         result = []
-        for c_identifier in c_identifiers:
+        for c_identifier in (c_identifiers or []):
             if 'season' not in c_identifier:
                 continue
 

@@ -45,7 +45,7 @@ class Metadata(object):
         # Ignore if this is an unsupported media type
         if item.type not in self.types:
             # TODO set flag to ignore future refresh requests
-            log.warn('Item %s with type "%s" has been ignored', key, item.get('type'))
+            log.warn('Item %s with type "%s" has been ignored', key, item.type)
             return None
 
         return item
