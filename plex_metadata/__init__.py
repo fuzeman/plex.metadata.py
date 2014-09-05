@@ -1,6 +1,7 @@
-from plex_metadata import matcher, metadata, guid
+from plex_metadata import guid, library, matcher, metadata
 
 # Global objects (using defaults)
-Matcher = matcher.Matcher()
-Metadata = metadata.Metadata()
 Guid = guid.Guid
+Library = library.Library
+Matcher = matcher.Default
+Metadata = metadata.Default

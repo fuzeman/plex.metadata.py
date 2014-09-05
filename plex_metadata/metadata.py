@@ -62,3 +62,7 @@ class Metadata(object):
 
     def timeline_finished(self, item):
         self.cache.invalidate(str(item['itemID']), refresh=True, create=True)
+
+
+# Global object
+Default = Metadata()

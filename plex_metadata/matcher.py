@@ -183,3 +183,6 @@ class Matcher(object):
                 break
 
         return result
+
+# Global object
+Default = Matcher()
