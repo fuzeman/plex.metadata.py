@@ -27,25 +27,27 @@ class Guid(object):
         result = Guid(agent, uri.netloc, uri.query)
 
         # Nothing more to parse, return now
-        if not uri.path:
-            return result
-
-        # Parse path component for agent-specific data
-        path_fragments = uri.path.strip('/').split('/')
-
-        if agent in DEFAULT_TV_AGENTS:
-            if len(path_fragments) >= 1:
-                result.season = try_convert(path_fragments[0], int)
-
-            if len(path_fragments) >= 2:
-                result.episode = try_convert(path_fragments[1], int)
-        else:
-            log.warn('Unable to completely parse guid "%s"', guid)
+        if uri.path:
+            cls.parse_path(guid, uri)
 
         if map:
             return cls.map_guid(result)
 
         return result
+
+    @classmethod
+    def parse_path(cls, guid, uri):
+        # Parse path component for agent-specific data
+        path_fragments = uri.path.strip('/').split('/')
+
+        if guid.agent in DEFAULT_TV_AGENTS:
+            if len(path_fragments) >= 1:
+                guid.season = try_convert(path_fragments[0], int)
+
+            if len(path_fragments) >= 2:
+                guid.episode = try_convert(path_fragments[1], int)
+        else:
+            log.warn('Unable to completely parse guid "%s"', guid)
 
     @classmethod
     def map_guid(cls, guid):
