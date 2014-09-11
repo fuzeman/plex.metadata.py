@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
         print '[%s] %s (%s)' % (guid, show.title, show)
 
-        episodes = Library.episodes(show.rating_key)
+        episodes = Library.episodes(show.rating_key, show)
 
         for identifier, episode in episodes.items():
             print '\t[%s] %s (%s)' % (identifier, episode.title, episode)
