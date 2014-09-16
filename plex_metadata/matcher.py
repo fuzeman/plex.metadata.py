@@ -1,3 +1,4 @@
+from plex import Plex
 from plex_metadata.core.helpers import try_convert
 
 import hashlib
@@ -20,20 +21,20 @@ class Matcher(object):
             log.info('Caper not available - "%s"', ex)
             return None
 
-    def lookup(self, file_hash):
-        return None
+    @property
+    def cache(self):
+        definitions = Plex.configuration.get('cache', {})
 
-    def store(self, file_hash, identifier):
-        pass
+        return definitions.get('matcher')
 
-    def parse(self, file_name, use_cache=True):
+    def parse(self, file_name):
         identifier = None
 
         file_hash = self.md5(file_name)
 
-        # Try lookup identifier in cache
-        if use_cache:
-            identifier = self.lookup(file_hash)
+        if self.cache is not None:
+            # Try lookup identifier in cache
+            identifier = self.cache.get(file_hash)
 
         # Parse new file_name
         if identifier is None and self.caper:
@@ -45,8 +46,9 @@ class Matcher(object):
             # Get best identifier match from result
             identifier = chain.info.get('identifier', []) if chain else []
 
-            # Update cache
-            self.store(file_hash, identifier)
+            if self.cache is not None:
+                # Update cache
+                self.cache[file_hash] = identifier
 
         return identifier
 

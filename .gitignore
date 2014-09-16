@@ -1,1 +1,3 @@
 *.pyc
+/examples/cache
+*.prof
