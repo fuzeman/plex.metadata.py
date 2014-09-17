@@ -23,9 +23,7 @@ class Matcher(object):
 
     @property
     def cache(self):
-        definitions = Plex.configuration.get('cache', {})
-
-        return definitions.get('matcher')
+        return Plex.configuration.get('cache.matcher')
 
     def parse(self, file_name):
         identifier = None
