@@ -19,6 +19,7 @@ def get_item(key):
 
 if __name__ == '__main__':
     Metadata.cache = Shove('memory://', 'memory://')
+    Metadata.client = Plex.client
 
     get_item(3)
 
