@@ -1,6 +1,6 @@
 from plex_metadata import __version__
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='plex.metadata.py',
@@ -12,7 +12,7 @@ setup(
     author_email='me@dgardiner.net',
 
     description='Metadata extension for plex.py',
-    packages=['plex_metadata'],
+    packages=find_packages(exclude=['tests']),
     platforms='any',
 
     install_requires=[

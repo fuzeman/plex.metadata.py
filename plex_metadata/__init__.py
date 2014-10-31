@@ -13,5 +13,5 @@ try:
     Library = library.Library
     Matcher = matcher.Default
     Metadata = metadata.Default
-except Exception, ex:
+except Exception as ex:
     log.warn('Unable to import submodules - %s', ex)
