@@ -1,2 +1,3 @@
+git+git://github.com/fuzeman/asio.git@develop
 git+git://github.com/fuzeman/plex.py.git@develop
 git+git://github.com/fuzeman/plex.activity.py.git@develop
