@@ -7,6 +7,7 @@ python:
   - "3.3"
 
 install:
+  - pip install --no-dependencies .
   - pip install -r tests/requirements.txt
   - pip install -r tests/requirements_$TRAVIS_BRANCH.txt
   - pip install -r tests/requirements_travis.txt
