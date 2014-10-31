@@ -2,6 +2,9 @@ from plex_metadata.core.defaults import DEFAULT_GUID_MAP, DEFAULT_TV_AGENTS
 from plex_metadata.core.helpers import try_convert, compile_map
 
 from urlparse import urlparse
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class Guid(object):
