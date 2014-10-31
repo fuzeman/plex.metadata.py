@@ -7,9 +7,9 @@ python:
   - "3.3"
 
 install:
-  - pip install -r requirements.txt
-  - pip install -r requirements_travis.txt
-  - pip install -r requirements_test.txt
+  - pip install -r tests/requirements.txt
+  - pip install -r tests/requirements_$TRAVIS_BRANCH.txt
+  - pip install -r tests/requirements_travis.txt
 
 script:
   - coverage run -m py.test
