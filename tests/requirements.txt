@@ -1,3 +1,4 @@
 decorator
+Logr
 git+git://github.com/fuzeman/Caper.git
 git+git://github.com/fuzeman/responses.git
