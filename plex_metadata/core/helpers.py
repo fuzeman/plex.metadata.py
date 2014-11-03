@@ -1,4 +1,5 @@
-from urlparse import urlparse as std_urlparse
+from plex.lib.six.moves.urllib_parse import urlparse as std_urlparse
+
 import re
 
 
