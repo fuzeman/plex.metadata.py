@@ -1,3 +1,4 @@
+from urlparse import urlparse as std_urlparse
 import re
 
 
@@ -35,3 +36,15 @@ def compile_map(guid_map):
         result[key] = mappings
 
     return result
+
+
+def urlparse(url):
+    scheme = None
+    scheme_pos = url.find('://')
+
+    if scheme_pos != -1:
+        scheme = url[:scheme_pos]
+        url = url[scheme_pos + 1:]
+
+    return scheme, std_urlparse(url)
+
