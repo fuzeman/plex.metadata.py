@@ -82,7 +82,7 @@ class Matcher(object):
             # Remove any episode identifiers that are more than 1 away
             c_episodes = self.remove_distant(c_episodes, p_episode)
         else:
-            log.warn('Item with key "%s" has no media parts, unable to use the extended matcher')
+            log.warn('Item with key "%s" has no media parts, unable to use the extended matcher', episode.rating_key)
 
         return p_season, c_episodes
 
