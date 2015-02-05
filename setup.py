@@ -12,7 +12,10 @@ setup(
     author_email='me@dgardiner.net',
 
     description='Metadata extension for plex.py',
-    packages=find_packages(exclude=['tests']),
+    packages=find_packages(exclude=[
+        'examples',
+        'tests'
+    ]),
     platforms='any',
 
     install_requires=[
