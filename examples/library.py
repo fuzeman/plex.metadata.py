@@ -2,7 +2,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 from plex import Plex
-from plex_metadata import Library
+from plex_metadata import Library, Metadata
 
 from shove import Shove
 import argparse
@@ -16,6 +16,7 @@ cache_dir = os.path.abspath('cache')
 
 http_cache = Shove('file://%s' % os.path.join(cache_dir, 'http'), 'memory://', optimize=False)
 matcher_cache = Shove('file://%s' % os.path.join(cache_dir, 'matcher'), 'memory://', optimize=False)
+metadata_cache = Shove('file://%s' % os.path.join(cache_dir, 'metadata'), 'memory://', optimize=False)
 
 
 def fetch_shows():
@@ -55,11 +56,11 @@ def measure(func, *args, **kwargs):
     return time.time() - started, result
 
 
-def test_shows():
+def test(func):
     t_elapsed = []
 
     for x in range(2):
-        elapsed, shows = measure(fetch_shows)
+        elapsed, shows = measure(func)
 
         print '] %.02fs' % elapsed
         t_elapsed.append(elapsed)
@@ -85,9 +86,14 @@ if __name__ == '__main__':
         pr = cProfile.Profile()
         pr.enable()
 
+    # Clear HTTP cache
+    http_cache.clear()
+
     # Start test (with http + matcher caching)
     with Plex.configuration.cache(http=http_cache, matcher=matcher_cache):
-        test_shows()
+        Metadata.configure(cache=metadata_cache)
+
+        test(fetch_movies)
 
     if pr and args.profile:
         # Finish profiling
@@ -118,3 +124,4 @@ if __name__ == '__main__':
     # Close shove caches
     http_cache.close()
     matcher_cache.close()
+    metadata_cache.close()

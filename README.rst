@@ -1,5 +1,12 @@
 plex.metadata.py
 ================
+
+.. image:: https://travis-ci.org/fuzeman/plex.metadata.py.svg?branch=master
+    :target: https://travis-ci.org/fuzeman/plex.metadata.py
+
+.. image:: https://coveralls.io/repos/fuzeman/plex.metadata.py/badge.png?branch=master
+    :target: https://coveralls.io/r/fuzeman/plex.metadata.py?branch=master
+
 Metadata extension for plex.py
 
 License

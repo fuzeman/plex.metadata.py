@@ -1,4 +1,5 @@
 from plex import Plex
+from plex.lib import six
 from plex_metadata.core.helpers import try_convert
 
 import hashlib
@@ -17,7 +18,7 @@ class Matcher(object):
         try:
             from caper import Caper
             return Caper()
-        except ImportError, ex:
+        except ImportError as ex:
             log.info('Caper not available - "%s"', ex)
             return None
 
@@ -39,6 +40,9 @@ class Matcher(object):
             # Parse file_name with Caper
             result = self.caper.parse(file_name)
 
+            if not result:
+                return None
+
             chain = result.chains[0] if result.chains else None
 
             # Get best identifier match from result
@@ -51,6 +55,9 @@ class Matcher(object):
         return identifier
 
     def md5(self, value):
+        if isinstance(value, six.text_type):
+            value = value.encode('utf-8')
+
         m = hashlib.md5()
         m.update(value)
 
@@ -75,11 +82,14 @@ class Matcher(object):
         # Find new episodes from identifiers
         c_episodes = [p_episode]
 
-        # Add extended episodes
-        c_episodes.extend(self.extend_episode(episode.media.parts, (p_season, p_episode)))
+        if episode.media and episode.media.parts:
+            # Add extended episodes
+            c_episodes.extend(self.extend_episode(episode.media.parts, (p_season, p_episode)))
 
-        # Remove any episode identifiers that are more than 1 away
-        c_episodes = self.remove_distant(c_episodes, p_episode)
+            # Remove any episode identifiers that are more than 1 away
+            c_episodes = self.remove_distant(c_episodes, p_episode)
+        else:
+            log.warn('Item with key "%s" has no media parts, unable to use the extended matcher', episode.rating_key)
 
         return p_season, c_episodes
 

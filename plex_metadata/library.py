@@ -4,6 +4,10 @@ from plex_metadata.guid import Guid
 from plex_metadata.matcher import Default as Matcher
 from plex_metadata.metadata import Default as Metadata
 
+import logging
+
+log = logging.getLogger(__name__)
+
 
 class Library(object):
     @classmethod
@@ -14,6 +18,10 @@ class Library(object):
         result = {}
 
         for section in sections:
+            if section.agent == "com.plexapp.agents.none":
+                # Exclude sections that don't have an agent
+                continue
+
             if section.type not in result:
                 result[section.type] = {}
 
@@ -59,11 +67,21 @@ class Library(object):
     def item_map(cls, table, item):
         metadata = Metadata.get(item.rating_key)
 
+        if not metadata:
+            log.warn('Unable to map item "%s" - unable to retrieve metadata', item.rating_key)
+            return False
+
         # Update with extended information
         item.guid = metadata.guid
 
         # Parse guid
         guid = Guid.parse(item.guid)
+
+        if not guid:
+            log.warn('Unable to map item "%s" - invalid/missing "guid" property', item.rating_key)
+            return False
+
+        # Build key
         key = (guid.agent, guid.sid)
 
         # Map item into table

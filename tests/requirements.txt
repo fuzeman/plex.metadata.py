@@ -1,0 +1,3 @@
+decorator
+Logr
+git+git://github.com/fuzeman/responses.git

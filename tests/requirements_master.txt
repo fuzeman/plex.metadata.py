@@ -1,0 +1,5 @@
+git+git://github.com/fuzeman/asio.git@master
+git+git://github.com/fuzeman/Caper.git@master
+git+git://github.com/fuzeman/PyEmitter.git@master
+git+git://github.com/fuzeman/plex.py.git@master
+git+git://github.com/fuzeman/plex.activity.py.git@master

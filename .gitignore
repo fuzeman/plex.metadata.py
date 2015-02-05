@@ -6,3 +6,5 @@
 /examples/*.prof
 /dist
 /plex.metadata.py.egg-info
+
+.coverage

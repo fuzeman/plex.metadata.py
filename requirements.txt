@@ -1,0 +1,2 @@
+git+git://github.com/fuzeman/plex.py.git
+git+git://github.com/fuzeman/plex.activity.py.git

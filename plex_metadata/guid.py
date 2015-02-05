@@ -1,7 +1,9 @@
 from plex_metadata.core.defaults import DEFAULT_GUID_MAP, DEFAULT_TV_AGENTS
-from plex_metadata.core.helpers import try_convert, compile_map
+from plex_metadata.core.helpers import try_convert, compile_map, urlparse
 
-from urlparse import urlparse
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class Guid(object):
@@ -21,8 +23,7 @@ class Guid(object):
         if not guid:
             return None
 
-        uri = urlparse(guid)
-        agent = uri.scheme
+        agent, uri = urlparse(guid)
 
         result = Guid(agent, uri.netloc, uri.query)
 
@@ -59,7 +60,7 @@ class Guid(object):
         if sid_pattern:
             if not match:
                 log.warn('Failed to match "%s" against sid_pattern for "%s" agent', guid.sid, guid.agent)
-                return None, None
+                return None
 
             # Update with new sid
             guid.sid = ''.join(match.groups())
