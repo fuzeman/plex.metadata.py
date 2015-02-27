@@ -1,20 +1,23 @@
 import logging
+
 logging.basicConfig(level=logging.DEBUG)
 
 from plex import Plex
+from plex.objects.library.metadata.episode import Episode
 from plex_activity import Activity
 from plex_metadata import Guid, Matcher, Metadata
 from shove import Shove
 
 def get_item(key):
-    episode = Metadata.get(3)
-    print "episode:", episode
+    metadata = Metadata.get(key)
+    print "metadata:", metadata
 
-    guid = Guid.parse(episode.guid)
-    print "guid:", guid
+    if type(metadata) is Episode:
+        guid = Guid.parse(metadata.guid)
+        print "guid:", guid
 
-    identifier = Matcher.process(episode)
-    print "identifier:", identifier
+        identifier = Matcher.process(metadata)
+        print "identifier:", identifier
 
 
 if __name__ == '__main__':
@@ -28,4 +31,4 @@ if __name__ == '__main__':
     while True:
         raw_input()
 
-        get_item(3)
+        get_item(195)
