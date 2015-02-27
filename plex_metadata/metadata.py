@@ -46,7 +46,7 @@ class Metadata(object):
             # Item not available in cache / no cache enabled
             value = self.refresh(key)
 
-        return value if value else None
+        return value
 
     @synchronized
     def invalidate(self, key):
