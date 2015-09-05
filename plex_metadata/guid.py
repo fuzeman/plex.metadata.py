@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 class Guid(object):
     map = compile_map(DEFAULT_GUID_MAP)
 
-    def __init__(self, agent, sid, extra):
+    def __init__(self, agent, sid, extra=None):
         self.agent = agent
         self.sid = sid
         self.extra = extra
