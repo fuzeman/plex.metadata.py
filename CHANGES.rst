@@ -1,6 +1,22 @@
+0.7.0 (2015-09-12)
+------------------
+**Added**
+ - [guid] :code:`Guid.__repr__()` and :code:`Guid.__str__()` methods
+ - [matcher] :code:`Matcher.set_caper()` and :code:`Matcher.set_extend()` methods
+
+**Changed**
+ - [library] :code:`Library.episodes()` now prefers real :code:`Episode` objects over multi-episode duplicates
+ - [library] Return :code:`None` from :code:`Library.all()` if the request fails
+ - [metadata] only cache metadata with a valid guid
+ - [metadata] cache unsupported items as :code:`False` to avoid refreshing on every request
+ - [metadata] return :code:`False` on unsupported media
+
+**Fixed**
+ - Issue handling invalid guids
+
 0.6.1 (2015-02-05)
 ------------------
-**Changes**
+**Changed**
  - Setup travis-ci testing and coverage (via coveralls)
  - [library] display a warning when :code:`Library.item_map()` fails due to a invalid/missing "guid" property
  - [library] exclude sections without an agent
