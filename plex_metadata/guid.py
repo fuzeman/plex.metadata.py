@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 class Guid(object):
     map = compile_map(DEFAULT_GUID_MAP)
 
-    def __init__(self, agent, sid, extra):
+    def __init__(self, agent, sid, extra=None):
         self.agent = agent
         self.sid = sid
         self.extra = extra
@@ -24,6 +24,9 @@ class Guid(object):
             return None
 
         agent, uri = urlparse(guid)
+
+        if not agent or not uri or not uri.netloc:
+            return None
 
         result = Guid(agent, uri.netloc, uri.query)
 
@@ -48,7 +51,7 @@ class Guid(object):
             if len(path_fragments) >= 2:
                 guid.episode = try_convert(path_fragments[1], int)
         else:
-            log.warn('Unable to completely parse guid "%s"', guid)
+            log.warn('Unable to completely parse guid (agent: %r)', guid.agent)
 
     @classmethod
     def map_guid(cls, guid):
@@ -91,3 +94,20 @@ class Guid(object):
             return map_agent, map_pattern, match
 
         return agent, None, None
+
+    def __repr__(self):
+        parameters = [
+            'agent: %r' % self.agent,
+            'sid: %r' % self.sid
+        ]
+
+        if self.season is not None:
+            parameters.append('season: %r' % self.season)
+
+        if self.episode is not None:
+            parameters.append('episode: %r' % self.episode)
+
+        return '<Guid - %s>' % ', '.join(parameters)
+
+    def __str__(self):
+        return self.__repr__()

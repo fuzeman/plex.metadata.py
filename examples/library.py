@@ -1,5 +1,5 @@
 import logging
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.WARN)
 
 from plex import Plex
 from plex_metadata import Library, Metadata
@@ -59,11 +59,38 @@ def measure(func, *args, **kwargs):
 def test(func):
     t_elapsed = []
 
-    for x in range(2):
-        elapsed, shows = measure(func)
+    print 'test(%r)' % func
 
-        print '] %.02fs' % elapsed
+    # prime cache
+    with Plex.configuration.cache(http=http_cache, matcher=matcher_cache):
+        Metadata.configure(cache=metadata_cache)
+
+        # Measure prime-cache task
+        elapsed, items = measure(func)
+
+    print '[P] %.02fs' % elapsed
+
+    # Clear http cache
+    http_cache.clear()
+    time.sleep(1)
+
+    for x in range(10):
+        with Plex.configuration.cache(http=http_cache, matcher=matcher_cache):
+            Metadata.configure(cache=metadata_cache)
+
+            # Measure task
+            elapsed, items = measure(func)
+
+        print '[R] %.02fs' % elapsed
         t_elapsed.append(elapsed)
+
+        # Clear http cache
+        http_cache.clear()
+        time.sleep(1)
+
+    # Clear matcher/metadata caches
+    matcher_cache.clear()
+    metadata_cache.clear()
 
     # Calculate test statistics
     t_min = min(t_elapsed)
@@ -71,6 +98,7 @@ def test(func):
     t_avg = sum(t_elapsed) / len(t_elapsed)
 
     print '] min: %.02f, max: %.02f, avg: %.02f' % (t_min, t_max, t_avg)
+    print
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -86,14 +114,10 @@ if __name__ == '__main__':
         pr = cProfile.Profile()
         pr.enable()
 
-    # Clear HTTP cache
-    http_cache.clear()
-
     # Start test (with http + matcher caching)
-    with Plex.configuration.cache(http=http_cache, matcher=matcher_cache):
-        Metadata.configure(cache=metadata_cache)
-
+    with Plex.configuration.authentication(os.environ['PLEX_TOKEN']):
         test(fetch_movies)
+        test(fetch_shows)
 
     if pr and args.profile:
         # Finish profiling

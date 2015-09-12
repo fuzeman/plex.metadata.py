@@ -15,6 +15,11 @@ class Library(object):
         types = to_iterable(types)
 
         sections = Plex['library'].sections().filter(types, keys, titles)
+
+        if sections is None:
+            log.warn('Unable to retrieve any sections (request failed)')
+            return None
+
         result = {}
 
         for section in sections:
@@ -56,6 +61,17 @@ class Library(object):
                 result[season] = {}
 
             for episode in episodes:
+                # Retrieve currently stored episode
+                if flat:
+                    current = result.get((season, episode))
+                else:
+                    current = result[season].get(episode)
+
+                # Skip if we already have the item stored
+                if current and current.season.index == season and current.index == episode:
+                    continue
+
+                # Store episode in `result`
                 if flat:
                     result[season, episode] = item
                 else:
@@ -78,7 +94,7 @@ class Library(object):
         guid = Guid.parse(item.guid)
 
         if not guid:
-            log.warn('Unable to map item "%s" - invalid/missing "guid" property', item.rating_key)
+            log.warn('Unable to map item "%s" - invalid/missing "guid" property (guid: %r)', item.rating_key, item.guid)
             return False
 
         # Build key
