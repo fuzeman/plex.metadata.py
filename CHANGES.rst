@@ -1,3 +1,12 @@
+0.7.1 (2016-02-12)
+------------------
+**Changed**
+ - Reduced severity of `Item ... with type "..." has been ignored` message
+ - Updated travis configuration (python: dropped 3.2, added 3.4 and 3.5)
+
+**Fixed**
+ - Episode range size is now limited in the matcher to avoid cpu/memory exhaustion
+
 0.7.0 (2015-09-12)
 ------------------
 **Added**
