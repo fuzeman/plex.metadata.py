@@ -1,8 +1,8 @@
 from plex_metadata.core.helpers import try_convert
+import plex.lib.six.moves.urllib_parse as urlparse
 
 import logging
 import re
-import urlparse
 
 DEFAULT_MEDIA = ['movie', 'show', 'season', 'episode']
 
