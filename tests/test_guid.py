@@ -25,6 +25,27 @@ def test_anidb_episode():
         assert r.episode == 71
 
 
+#
+# MyAnimeList
+#
+
+
+def test_myanimelist_episode():
+    guids = [
+        'net.fribbtastic.coding.plex.myanimelist://1234/1/71?lang=en'
+    ]
+
+    for item in guids:
+        r = Guid.parse(item)
+
+        assert r.service == 'myanimelist'
+        assert r.id == '1234'
+
+        assert r.season == 1
+        assert r.episode == 71
+
+
+#
 # The TVDb
 #
 

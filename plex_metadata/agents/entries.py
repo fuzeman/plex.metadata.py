@@ -20,6 +20,12 @@ AGENTS = {
         ]
     },
 
+    'net.fribbtastic.coding.plex.myanimelist': {
+        'media': ['show', 'season', 'episode'],
+
+        'service': 'myanimelist'
+    },
+
     #
     # TV Shows
     #
