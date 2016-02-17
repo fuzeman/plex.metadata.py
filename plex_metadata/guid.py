@@ -66,15 +66,9 @@ class Guid(object):
 
     def __repr__(self):
         parameters = [
-            'agent: %r' % self.agent,
-            'value: %r' % self.value
+            'service: %r' % self.service,
+            'id: %r' % self.id
         ]
-
-        if self.service is not None:
-            parameters.append('service: %r' % self.service)
-
-        if self.id is not None:
-            parameters.append('id: %r' % self.id)
 
         if self.season is not None:
             parameters.append('season: %r' % self.season)
