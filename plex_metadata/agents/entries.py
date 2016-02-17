@@ -74,12 +74,6 @@ AGENTS = {
         'service': 'tmdb'
     },
 
-    'com.plexapp.agents.themoviedb': {
-        'media': ['movie'],
-
-        'service': 'tmdb'
-    },
-
     'com.plexapp.agents.xbmcnfo': {
         'media': ['movie'],
 
@@ -93,4 +87,8 @@ AGENTS = {
     'com.plexapp.agents.imdb': {
         'service': 'imdb'
     },
+
+    'com.plexapp.agents.themoviedb': {
+        'service': 'tmdb'
+    }
 }
