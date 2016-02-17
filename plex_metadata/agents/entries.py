@@ -1,5 +1,20 @@
 AGENTS = {
     #
+    # Anime
+    #
+
+    'com.plexapp.agents.hama': {
+        'media': ['show', 'season', 'episode'],
+
+        'children': [
+            {'pattern': r'anidb-(.*)', 'service': 'anidb'},
+            {'pattern': r'imdb-(.*)', 'service': 'imdb'},
+            {'pattern': r'tmdb-(.*)', 'service': 'tmdb'},
+            {'pattern': r'tvdb-(.*)', 'service': 'tvdb'}
+        ]
+    },
+
+    #
     # TV Shows
     #
 
