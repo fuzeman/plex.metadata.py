@@ -166,3 +166,45 @@ def test_tmdb_episode():
         assert r.episode == 2
 
         assert r.language == 'en'
+
+
+#
+# Misc
+#
+
+
+def test_media():
+    guids = [
+        'com.plexapp.agents.thetvdb://12345'
+    ]
+
+    for item in guids:
+        r = Guid.parse(item, media='movie')
+
+        assert r is None
+
+
+def test_no_match():
+    guids = [
+        'com.plexapp.basic://12345/3/2?lang=en'
+    ]
+
+    for item in guids:
+        r = Guid.parse(item, match=False)
+
+        assert r.service == 'basic'
+        assert r.id == '12345'
+
+
+def test_unsupported():
+    guids = [
+        'com.plexapp.unsupported://12345/3/2?lang=en',
+        'com.plexapp.unsupported://',
+        '://12345',
+        None
+    ]
+
+    for item in guids:
+        r = Guid.parse(item)
+
+        assert r is None
