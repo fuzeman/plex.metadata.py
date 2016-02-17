@@ -2,7 +2,7 @@ from plex import Plex
 from plex.core.helpers import synchronized
 from plex_activity import Activity
 from plex_metadata.core.defaults import DEFAULT_TYPES
-from plex_metadata.core.helpers import urlparse
+from plex_metadata.core.helpers import try_convert, urlparse
 
 from threading import Condition
 import logging
@@ -131,6 +131,10 @@ class Metadata(object):
     #
 
     def fetch(self, key):
+        if try_convert(key, int) is None:
+            log.info('Ignoring request for metadata with an invalid key: %r', key)
+            return None
+        
         # Request metadata from server
         container = Plex['library'].metadata(key)
 
