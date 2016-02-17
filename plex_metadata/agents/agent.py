@@ -2,6 +2,7 @@ from plex_metadata.core.helpers import try_convert
 
 import logging
 import re
+import urlparse
 
 DEFAULT_MEDIA = ['movie', 'show', 'season', 'episode']
 
@@ -88,8 +89,9 @@ class Agent(object):
         guid.service = self.service
         guid.id = id
 
-        # Fill `guid` with details from path (season, episode)
+        # Fill `guid` with extra details from URI
         self.fill_path(guid, uri.path)
+        self.fill_query(guid, uri.query)
 
         return True
 
@@ -103,3 +105,11 @@ class Agent(object):
 
         if 'episode' in self.media and len(fragments) >= 2:
             guid.episode = try_convert(fragments[1], int)
+
+    @staticmethod
+    def fill_query(guid, query):
+        # Parse query parameters
+        parameters = dict(urlparse.parse_qsl(query))
+
+        # Update `guid` with parameters
+        guid.language = parameters.get('lang')

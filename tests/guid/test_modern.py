@@ -24,6 +24,8 @@ def test_anidb_episode():
         assert r.season == 1
         assert r.episode == 71
 
+        assert r.language == 'en'
+
 
 #
 # MyAnimeList
@@ -43,6 +45,8 @@ def test_myanimelist_episode():
 
         assert r.season == 1
         assert r.episode == 71
+
+        assert r.language == 'en'
 
 
 #
@@ -64,6 +68,8 @@ def test_tvdb_show():
         assert r.season is None
         assert r.episode is None
 
+        assert r.language == 'en'
+
 
 def test_tvdb_episode():
     guids = [
@@ -84,6 +90,8 @@ def test_tvdb_episode():
         assert r.season == 13
         assert r.episode == 52
 
+        assert r.language == 'en'
+
 
 #
 # IMDb
@@ -102,6 +110,8 @@ def test_imdb_movie():
         assert r.service == 'imdb'
         assert r.id == 'tt12345'
 
+        assert r.language is None
+
 
 def test_imdb_episode():
     guids = [
@@ -116,6 +126,8 @@ def test_imdb_episode():
 
         assert r.season == 1
         assert r.episode == 71
+
+        assert r.language == 'en'
 
 
 #
@@ -135,10 +147,12 @@ def test_tmdb_movie():
         assert r.service == 'tmdb'
         assert r.id == '12345'
 
+        assert r.language is None
+
 
 def test_tmdb_episode():
     guids = [
-        'com.plexapp.agents.themoviedb://12345/3/2',
+        'com.plexapp.agents.themoviedb://12345/3/2?lang=en',
         'com.plexapp.agents.hama://tmdb-12345/3/2?lang=en'
     ]
 
@@ -150,3 +164,5 @@ def test_tmdb_episode():
 
         assert r.season == 3
         assert r.episode == 2
+
+        assert r.language == 'en'
