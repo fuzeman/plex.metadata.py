@@ -3,6 +3,8 @@ from plex_metadata.core.helpers import try_convert
 import logging
 import re
 
+DEFAULT_MEDIA = ['movie', 'show', 'season', 'episode']
+
 log = logging.getLogger(__name__)
 
 
@@ -19,9 +21,10 @@ class Agent(object):
     #
 
     @classmethod
-    def compile(cls, entry):
+    def compile(cls, entry, media=None):
+        # Construct `Agent`
         return cls(
-            media=entry.get('media'),
+            media=cls.get_media(entry, media),
             service=entry.get('service'),
 
             # Compile regular expression
@@ -29,7 +32,7 @@ class Agent(object):
 
             # Compile children
             children=[
-                cls.compile(child)
+                cls.compile(child, media)
                 for child in (entry.get('children') or [])
             ]
         )
@@ -45,6 +48,13 @@ class Agent(object):
             log.warn('Unable to compile regular expression: %r - %s', pattern, ex, exc_info=True)
 
         return None
+
+    @staticmethod
+    def get_media(entry, media=None):
+        if entry.get('media') is None:
+            return DEFAULT_MEDIA
+
+        return entry.get('media') + (media or [])
 
     #
     # Fill
@@ -83,14 +93,13 @@ class Agent(object):
 
         return True
 
-    @staticmethod
-    def fill_path(guid, path):
+    def fill_path(self, guid, path):
         # Split path into fragments
         fragments = path.strip('/').split('/')
 
         # Retrieve TV parameters
-        if len(fragments) >= 1:
+        if 'season' in self.media and len(fragments) >= 1:
             guid.season = try_convert(fragments[0], int)
 
-        if len(fragments) >= 2:
+        if 'episode' in self.media and len(fragments) >= 2:
             guid.episode = try_convert(fragments[1], int)
