@@ -45,7 +45,10 @@ class Guid(object):
         result = Guid(uri.netloc, uri.query)
 
         if not match:
-            # No extra matching enabled
+            # No agent matching enabled, basic fill
+            result.service = agent_name[agent_name.rfind('.') + 1:]
+            result.id = uri.netloc
+
             return result
 
         # Match guid with agent, fill with details
