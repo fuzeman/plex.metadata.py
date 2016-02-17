@@ -45,7 +45,7 @@ class Agent(object):
 
         try:
             return re.compile(pattern, re.IGNORECASE)
-        except Exception, ex:
+        except Exception as ex:
             log.warn('Unable to compile regular expression: %r - %s', pattern, ex, exc_info=True)
 
         return None
