@@ -4,6 +4,11 @@ logging.basicConfig(level=logging.DEBUG)
 from plex_metadata import Guid
 
 
+#
+# The TVDb
+#
+
+
 def test_tvdb_show():
     guids = [
         'com.plexapp.agents.thetvdb://12345?lang=en'
@@ -12,8 +17,8 @@ def test_tvdb_show():
     for item in guids:
         r = Guid.parse(item)
 
-        assert r.agent == 'tvdb'
-        assert r.sid == '12345'
+        assert r.service == 'tvdb'
+        assert r.id == '12345'
 
         assert r.season is None
         assert r.episode is None
@@ -31,14 +36,19 @@ def test_tvdb_episode():
     for item in guids:
         r = Guid.parse(item)
 
-        assert r.agent == 'tvdb'
-        assert r.sid == '12345'
+        assert r.service == 'tvdb'
+        assert r.id == '12345'
 
         assert r.season == 13
         assert r.episode == 52
 
 
-def test_imdb():
+#
+# IMDb
+#
+
+
+def test_imdb_movie():
     guids = [
         'com.plexapp.agents.imdb://tt12345',
         'com.plexapp.agents.xbmcnfotv://tt12345'
@@ -47,11 +57,17 @@ def test_imdb():
     for item in guids:
         r = Guid.parse(item)
 
-        assert r.agent == 'imdb'
-        assert r.sid == 'tt12345'
+        assert r.service == 'imdb'
+        assert r.id == 'tt12345'
 
 
-def test_tmdb():
+
+#
+# The Movie Database
+#
+
+
+def test_tmdb_movie():
     guids = [
         'com.plexapp.agents.standalone://12345',
         'com.plexapp.agents.themoviedb://12345'
@@ -60,5 +76,20 @@ def test_tmdb():
     for item in guids:
         r = Guid.parse(item)
 
-        assert r.agent == 'tmdb'
-        assert r.sid == '12345'
+        assert r.service == 'tmdb'
+        assert r.id == '12345'
+
+
+def test_tmdb_episode():
+    guids = [
+        'com.plexapp.agents.themoviedb://12345/3/2',
+    ]
+
+    for item in guids:
+        r = Guid.parse(item)
+
+        assert r.service == 'tmdb'
+        assert r.id == '12345'
+
+        assert r.season == 3
+        assert r.episode == 2
