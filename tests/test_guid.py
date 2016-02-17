@@ -11,6 +11,7 @@ from plex_metadata import Guid
 
 def test_anidb_episode():
     guids = [
+        'com.plexapp.agents.anidb://1234/1/71?lang=en',
         'com.plexapp.agents.hama://anidb-1234/1/71?lang=en'
     ]
 

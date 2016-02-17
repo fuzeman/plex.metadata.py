@@ -3,6 +3,12 @@ AGENTS = {
     # Anime
     #
 
+    'com.plexapp.agents.anidb': {
+        'media': ['show', 'season', 'episode'],
+
+        'service': 'anidb'
+    },
+
     'com.plexapp.agents.hama': {
         'media': ['show', 'season', 'episode'],
 
