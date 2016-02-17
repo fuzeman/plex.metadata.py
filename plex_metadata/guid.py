@@ -31,14 +31,14 @@ class Guid(object):
         return self.id
 
     @classmethod
-    def parse(cls, guid, match=True):
+    def parse(cls, guid, match=True, media=None):
         if not guid:
             return None
 
         # Parse Guid URI
-        agent, uri = urlparse(guid)
+        agent_name, uri = urlparse(guid)
 
-        if not agent or not uri or not uri.netloc:
+        if not agent_name or not uri or not uri.netloc:
             return None
 
         # Construct `Guid` object
@@ -52,20 +52,22 @@ class Guid(object):
             return result
 
         # Match guid with agent, fill with details
-        cls.match(agent, result, uri)
+        if not cls.match(agent_name, result, uri, media):
+            return None
+
         return result
 
     @classmethod
-    def match(cls, agent, guid, uri):
+    def match(cls, agent_name, guid, uri, media=None):
         # Retrieve `Agent` for provided `guid`
-        agent = Agents.get(agent)
+        agent = Agents.get(agent_name)
 
         if agent is None:
-            log.warn('Unsupported metadata agent: %r', agent)
+            log.warn('Unsupported metadata agent: %r', agent_name)
             return False
 
         # Fill `guid` with details from agent
-        agent.fill(guid, uri)
+        return agent.fill(guid, uri, media)
 
     def __repr__(self):
         parameters = [
