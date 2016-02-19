@@ -1,4 +1,6 @@
 AGENTS = {
+    'local': {},
+
     #
     # Anime
     #
