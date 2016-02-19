@@ -19,7 +19,7 @@ def test_anidb_episode():
         r = Guid.parse(item)
 
         assert r.service == 'anidb'
-        assert r.id == '1234'
+        assert r.id == 1234
 
         assert r.season == 1
         assert r.episode == 71
@@ -41,7 +41,7 @@ def test_myanimelist_episode():
         r = Guid.parse(item)
 
         assert r.service == 'myanimelist'
-        assert r.id == '1234'
+        assert r.id == 1234
 
         assert r.season == 1
         assert r.episode == 71
@@ -63,7 +63,7 @@ def test_tvdb_show():
         r = Guid.parse(item)
 
         assert r.service == 'tvdb'
-        assert r.id == '12345'
+        assert r.id == 12345
 
         assert r.season is None
         assert r.episode is None
@@ -85,7 +85,7 @@ def test_tvdb_episode():
         r = Guid.parse(item)
 
         assert r.service == 'tvdb'
-        assert r.id == '12345'
+        assert r.id == 12345
 
         assert r.season == 13
         assert r.episode == 52
@@ -145,7 +145,7 @@ def test_tmdb_movie():
         r = Guid.parse(item)
 
         assert r.service == 'tmdb'
-        assert r.id == '12345'
+        assert r.id == 12345
 
         assert r.language is None
 
@@ -160,7 +160,7 @@ def test_tmdb_episode():
         r = Guid.parse(item)
 
         assert r.service == 'tmdb'
-        assert r.id == '12345'
+        assert r.id == 12345
 
         assert r.season == 3
         assert r.episode == 2
