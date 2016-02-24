@@ -173,7 +173,20 @@ def test_tmdb_episode():
 #
 
 
-def test_invalid_media():
+def test_invalid_format():
+    guids = [
+        'com.plexapp.unsupported://',
+        '://12345',
+        None
+    ]
+
+    for item in guids:
+        r = Guid.parse(item)
+
+        assert r is None
+
+
+def test_invalid_show():
     guids = [
         'com.plexapp.agents.thetvdb://12345'
     ]
@@ -185,7 +198,21 @@ def test_invalid_media():
         assert r.id == '12345'
 
 
-def test_no_match():
+def test_none_movie():
+    guids = [
+        'com.plexapp.agents.none://c5a059f2ba654c580cd8fe322379c7fb5b62c370?lang=xn'
+    ]
+
+    for item in guids:
+        r = Guid.parse(item, media='movie', strict=True)
+
+        assert r is not None
+
+        assert r.service == 'none'
+        assert r.id == 'c5a059f2ba654c580cd8fe322379c7fb5b62c370'
+
+
+def test_no_match_episode():
     guids = [
         'com.plexapp.basic://12345/3/2?lang=en'
     ]
@@ -197,7 +224,18 @@ def test_no_match():
         assert r.id == '12345'
 
 
-def test_unsupported():
+def test_strict_movie():
+    guids = [
+        'com.plexapp.agents.unsupported://c5a059f2ba654c580cd8fe322379c7fb5b62c370?lang=xn'
+    ]
+
+    for item in guids:
+        r = Guid.parse(item, media='movie', strict=True)
+
+        assert r is None
+
+
+def test_unsupported_episode():
     guids = [
         'com.plexapp.unsupported://12345/3/2?lang=en'
     ]
@@ -206,16 +244,3 @@ def test_unsupported():
         r = Guid.parse(item)
 
         assert r.service == 'unsupported'
-
-
-def test_invalid():
-    guids = [
-        'com.plexapp.unsupported://',
-        '://12345',
-        None
-    ]
-
-    for item in guids:
-        r = Guid.parse(item)
-
-        assert r is None
