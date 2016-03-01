@@ -34,6 +34,7 @@ def test_anidb_episode():
 
 def test_myanimelist_episode():
     guids = [
+        'net.devvsbugs.coding.plex.myanimelist://1234/1/71?lang=en',
         'net.fribbtastic.coding.plex.myanimelist://1234/1/71?lang=en'
     ]
 
@@ -244,3 +245,15 @@ def test_unsupported_episode():
         r = Guid.parse(item)
 
         assert r.service == 'unsupported'
+
+
+def test_youtube_movie():
+    guids = [
+        'com.plexapp.agents.youtube://7Pq-S557XQU?lang=xn'
+    ]
+
+    for item in guids:
+        r = Guid.parse(item, strict=True)
+
+        assert r is not None
+        assert r.service == 'youtube'
