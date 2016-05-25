@@ -12,7 +12,8 @@ from plex_metadata import Guid
 def test_anidb_episode():
     guids = [
         'com.plexapp.agents.anidb://1234/1/71?lang=en',
-        'com.plexapp.agents.hama://anidb-1234/1/71?lang=en'
+        'com.plexapp.agents.hama://anidb-1234/1/71?lang=en',
+        'com.plexapp.agents.hama://1234/1/71?lang=en'
     ]
 
     for item in guids:
@@ -25,6 +26,42 @@ def test_anidb_episode():
         assert r.episode == 71
 
         assert r.language == 'en'
+
+
+#
+# AniDb
+#
+
+
+def test_kinopoisk_movie():
+    guids = [
+        'com.plexapp.agents.kinopoiskru://1234?lang=ru'
+    ]
+
+    for item in guids:
+        r = Guid.parse(item)
+
+        assert r.service == 'kinopoisk'
+        assert r.id == 1234
+
+        assert r.language == 'ru'
+
+
+def test_kinopoisk_episode():
+    guids = [
+        'com.plexapp.agents.kinopoiskrushow://1234/1/71?lang=ru'
+    ]
+
+    for item in guids:
+        r = Guid.parse(item)
+
+        assert r.service == 'kinopoisk'
+        assert r.id == 1234
+
+        assert r.season == 1
+        assert r.episode == 71
+
+        assert r.language == 'ru'
 
 
 #
