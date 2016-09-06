@@ -1,3 +1,8 @@
+0.8.2 (2016-09-06)
+------------------
+**Travis CI**
+ - Fixed installation issue when building tags
+
 0.8.1 (2016-09-06)
 ------------------
 **Tests**
