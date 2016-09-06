@@ -1,20 +1,17 @@
 language: python
-
 python:
-  - "2.6"
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-
+- "2.6"
+- "2.7"
+- "3.3"
+- "3.4"
+- "3.5"
 install:
-  - pip install --no-dependencies .
-  - pip install -r tests/requirements.txt
-  - pip install -r tests/requirements_$TRAVIS_BRANCH.txt
-  - pip install -r tests/requirements_travis.txt
-
+- export CURRENT_BRANCH=$(if [ -n "$TRAVIS_TAG" ]; then echo "master"; else echo "$TRAVIS_BRANCH"; fi)
+- pip install --no-dependencies .
+- pip install -r tests/requirements.txt
+- pip install -r tests/requirements_$CURRENT_BRANCH.txt
+- pip install -r tests/requirements_travis.txt
 script:
-  - coverage run -m py.test
-
+- coverage run -m py.test
 after_success:
-  - coveralls
+- coveralls
