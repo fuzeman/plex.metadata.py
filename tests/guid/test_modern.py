@@ -221,7 +221,7 @@ def test_invalid_format():
     for item in guids:
         r = Guid.parse(item)
 
-        assert r is None
+        assert r.valid is False
 
 
 def test_invalid_show():
@@ -270,7 +270,7 @@ def test_strict_movie():
     for item in guids:
         r = Guid.parse(item, media='movie', strict=True)
 
-        assert r is None
+        assert r.valid is False
 
 
 def test_unsupported_episode():
