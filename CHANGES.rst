@@ -1,3 +1,8 @@
+0.8.1 (2016-09-06)
+------------------
+**Tests**
+ - Updated tests to support the latest :code:`Guid` changes
+
 0.8.0 (2016-09-06)
 ------------------
 **Added**
