@@ -18,6 +18,7 @@ def test_anidb_episode():
 
     for item in guids:
         r = Guid.parse(item)
+        assert r.valid is True
 
         assert r.service == 'anidb'
         assert r.id == 1234
@@ -29,7 +30,7 @@ def test_anidb_episode():
 
 
 #
-# AniDb
+# Kinopoisk
 #
 
 
@@ -40,6 +41,23 @@ def test_kinopoisk_movie():
 
     for item in guids:
         r = Guid.parse(item)
+        assert r.valid is True
+
+        assert r.service == 'kinopoisk'
+        assert r.id == 1234
+
+        assert r.language == 'ru'
+
+
+def test_kinopoisk_show():
+    guids = [
+        'com.plexapp.agents.kinopoisk://1234?lang=ru',
+        'com.plexapp.agents.kinopoiskru://1234?lang=ru'
+    ]
+
+    for item in guids:
+        r = Guid.parse(item)
+        assert r.valid is True
 
         assert r.service == 'kinopoisk'
         assert r.id == 1234
@@ -54,6 +72,7 @@ def test_kinopoisk_episode():
 
     for item in guids:
         r = Guid.parse(item)
+        assert r.valid is True
 
         assert r.service == 'kinopoisk'
         assert r.id == 1234
@@ -77,6 +96,7 @@ def test_myanimelist_episode():
 
     for item in guids:
         r = Guid.parse(item)
+        assert r.valid is True
 
         assert r.service == 'myanimelist'
         assert r.id == 1234
@@ -99,6 +119,7 @@ def test_tvdb_show():
 
     for item in guids:
         r = Guid.parse(item)
+        assert r.valid is True
 
         assert r.service == 'tvdb'
         assert r.id == 12345
@@ -121,6 +142,7 @@ def test_tvdb_episode():
 
     for item in guids:
         r = Guid.parse(item)
+        assert r.valid is True
 
         assert r.service == 'tvdb'
         assert r.id == 12345
@@ -144,6 +166,7 @@ def test_imdb_movie():
 
     for item in guids:
         r = Guid.parse(item)
+        assert r.valid is True
 
         assert r.service == 'imdb'
         assert r.id == 'tt12345'
@@ -158,6 +181,7 @@ def test_imdb_episode():
 
     for item in guids:
         r = Guid.parse(item)
+        assert r.valid is True
 
         assert r.service == 'imdb'
         assert r.id == '12345'
@@ -181,6 +205,7 @@ def test_tmdb_movie():
 
     for item in guids:
         r = Guid.parse(item)
+        assert r.valid is True
 
         assert r.service == 'tmdb'
         assert r.id == 12345
@@ -196,12 +221,33 @@ def test_tmdb_episode():
 
     for item in guids:
         r = Guid.parse(item)
+        assert r.valid is True
 
         assert r.service == 'tmdb'
         assert r.id == 12345
 
         assert r.season == 3
         assert r.episode == 2
+
+        assert r.language == 'en'
+
+
+#
+# MCM
+#
+
+
+def test_mcm_movie():
+    guids = [
+        'com.plexapp.agents.mcm://16b58809d0c4aa53110cc2828d10618b88aefed0?lang=en'
+    ]
+
+    for item in guids:
+        r = Guid.parse(item)
+        assert r.valid is True
+
+        assert r.service == 'mcm'
+        assert r.id == '16b58809d0c4aa53110cc2828d10618b88aefed0'
 
         assert r.language == 'en'
 
@@ -220,7 +266,6 @@ def test_invalid_format():
 
     for item in guids:
         r = Guid.parse(item)
-
         assert r.valid is False
 
 
@@ -231,6 +276,7 @@ def test_invalid_show():
 
     for item in guids:
         r = Guid.parse(item, media='movie')
+        assert r.valid is False
 
         assert r.service == 'thetvdb'
         assert r.id == '12345'
@@ -243,11 +289,23 @@ def test_none_movie():
 
     for item in guids:
         r = Guid.parse(item, media='movie', strict=True)
-
-        assert r is not None
+        assert r.valid is True
 
         assert r.service == 'none'
         assert r.id == 'c5a059f2ba654c580cd8fe322379c7fb5b62c370'
+
+
+def test_local_movie():
+    guids = [
+        'local://1234'
+    ]
+
+    for item in guids:
+        r = Guid.parse(item, media='movie', strict=True)
+        assert r.valid is True
+
+        assert r.service == 'local'
+        assert r.id == '1234'
 
 
 def test_no_match_episode():
@@ -257,6 +315,7 @@ def test_no_match_episode():
 
     for item in guids:
         r = Guid.parse(item, match=False)
+        assert r.valid is False
 
         assert r.service == 'basic'
         assert r.id == '12345'
@@ -269,7 +328,6 @@ def test_strict_movie():
 
     for item in guids:
         r = Guid.parse(item, media='movie', strict=True)
-
         assert r.valid is False
 
 
@@ -280,6 +338,7 @@ def test_unsupported_episode():
 
     for item in guids:
         r = Guid.parse(item)
+        assert r.valid is False
 
         assert r.service == 'unsupported'
 
@@ -291,6 +350,6 @@ def test_youtube_movie():
 
     for item in guids:
         r = Guid.parse(item, strict=True)
+        assert r.valid is True
 
-        assert r is not None
         assert r.service == 'youtube'
